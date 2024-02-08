@@ -9,7 +9,7 @@ file(GLOB SOURCES
     src/*.cpp
 )
 
-add_executable(executable src/main.cpp src/LinkedList.cpp)
+add_executable(executable src/main.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

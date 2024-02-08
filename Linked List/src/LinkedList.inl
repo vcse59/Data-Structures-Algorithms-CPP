@@ -1,59 +1,67 @@
-#include "../include/LinkedList.h"
-#include <iostream>
-
-DSA::SingleLinkedListNode::SingleLinkedListNode()
+template <class T>
+DSA::SingleLinkedListNode<T>::SingleLinkedListNode()
 {
     mNext = nullptr;
 }
 
-DSA::SingleLinkedListNode::SingleLinkedListNode(int pData)
+template <class T>
+DSA::SingleLinkedListNode<T>::SingleLinkedListNode(T pData)
 {
     mData = pData;
     mNext = nullptr;
 }
 
-DSA::SingleLinkedListNode::SingleLinkedListNode(int pData, SingleLinkedListNode* next)
+template <class T>
+DSA::SingleLinkedListNode<T>::SingleLinkedListNode(T pData, SingleLinkedListNode<T>* next)
 {
     mData = pData;
     mNext = next;
 }
 
-DSA::SingleLinkedListNode::~SingleLinkedListNode()
+template <class T>
+DSA::SingleLinkedListNode<T>::~SingleLinkedListNode()
 {
 
 }
 
-void DSA::SingleLinkedListNode::setData(int pData)
+template <class T>
+void DSA::SingleLinkedListNode<T>::setData(T pData)
 {
     mData = pData;
 }
 
-int DSA::SingleLinkedListNode::getData()
+template <class T>
+T DSA::SingleLinkedListNode<T>::getData()
 {
     return mData;
 }
 
-void DSA::SingleLinkedListNode::setNext(SingleLinkedListNode* next)
+template <class T>
+void DSA::SingleLinkedListNode<T>::setNext(SingleLinkedListNode<T>* next)
 {
     mNext = next;
 }
 
-DSA::SingleLinkedListNode* DSA::SingleLinkedListNode::getNext()
+template <class T>
+DSA::SingleLinkedListNode<T>* DSA::SingleLinkedListNode<T>::getNext()
 {
     return mNext;
 }
 
-DSA::LinkedList::LinkedList()
+template <class T>
+DSA::LinkedList<T>::LinkedList(T defaultErrorVal)
 {
+    mDefaultError = defaultErrorVal;
     mHead = nullptr;
 }
 
-DSA::LinkedList::~LinkedList()
+template <class T>
+DSA::LinkedList<T>::~LinkedList()
 {
-    SingleLinkedListNode* tempHead = mHead;
+    SingleLinkedListNode<T>* tempHead = mHead;
     while(tempHead != nullptr)
     {
-        SingleLinkedListNode* currentNode = tempHead;
+        SingleLinkedListNode<T>* currentNode = tempHead;
         tempHead = tempHead->getNext();
         delete currentNode;
     }
@@ -61,16 +69,18 @@ DSA::LinkedList::~LinkedList()
     mHead = nullptr;
 }
 
-DSA::SingleLinkedListNode* DSA::LinkedList::getHead()
+template <class T>
+DSA::SingleLinkedListNode<T>* DSA::LinkedList<T>::getHead()
 {
     return mHead;
 }
             
-void DSA::LinkedList::insertStart(int pData)
+template <class T>
+void DSA::LinkedList<T>::insertStart(T pData)
 {
-    DSA::SingleLinkedListNode* tempHead = mHead;
+    DSA::SingleLinkedListNode<T>* tempHead = mHead;
 
-    SingleLinkedListNode* node = new SingleLinkedListNode(pData);
+    SingleLinkedListNode<T>* node = new SingleLinkedListNode<T>(pData);
     if (tempHead != nullptr)
     {
         node->setNext(tempHead);
@@ -79,11 +89,12 @@ void DSA::LinkedList::insertStart(int pData)
     mHead = node;
 }
 
-void DSA::LinkedList::insertEnd(int pData)
+template <class T>
+void DSA::LinkedList<T>::insertEnd(T pData)
 {
-    DSA::SingleLinkedListNode* tempHead = mHead;
+    DSA::SingleLinkedListNode<T>* tempHead = mHead;
 
-    SingleLinkedListNode* node = new SingleLinkedListNode(pData);
+    SingleLinkedListNode<T>* node = new SingleLinkedListNode<T>(pData);
     if (tempHead == nullptr)
     {
         mHead = node;
@@ -96,13 +107,14 @@ void DSA::LinkedList::insertEnd(int pData)
     }
 }
 
-void DSA::LinkedList::insertNth(int pData, int nTh)
+template <class T>
+void DSA::LinkedList<T>::insertNth(T pData, int nTh)
 {
     int nodeCount = 0;
 
-    SingleLinkedListNode* tempHead = mHead;
-    SingleLinkedListNode* prevNode = mHead;
-    SingleLinkedListNode* node = new SingleLinkedListNode(pData);
+    SingleLinkedListNode<T>* tempHead = mHead;
+    SingleLinkedListNode<T>* prevNode = mHead;
+    SingleLinkedListNode<T>* node = new SingleLinkedListNode<T>(pData);
     
     while(tempHead != nullptr)
     {
@@ -119,30 +131,33 @@ void DSA::LinkedList::insertNth(int pData, int nTh)
     }
 }
 
-int DSA::LinkedList::getFront()
+template <class T>
+DSA::RETURN_VALUE<T> DSA::LinkedList<T>::getFront()
 {
     if (mHead == nullptr){
         std::cout << __FUNCTION__ << " : Container is empty" << std::endl;
-        return -1;
+        return DSA::RETURN_VALUE<T>(mDefaultError, mDefaultError, DSA::RETURN_STATE::ERROR);
     }
-    return mHead->getData();
+    return DSA::RETURN_VALUE<T>(mHead->getData(), mDefaultError, DSA::RETURN_STATE::SUCCESS);
 }
 
-int DSA::LinkedList::getBack()
+template <class T>
+T DSA::LinkedList<T>::getBack()
 {
     if (mHead == nullptr){
         std::cout << __FUNCTION__ << " : Container is empty" << std::endl;
         return -1;
     }
 
-    SingleLinkedListNode* tempHead = mHead;
+    SingleLinkedListNode<T>* tempHead = mHead;
 
     while(tempHead->getNext() != nullptr)
         tempHead = tempHead->getNext();
     return tempHead->getData();
 }
 
-int DSA::LinkedList::getNth(int nTh)
+template <class T>
+T DSA::LinkedList<T>::getNth(int nTh)
 {
     int nodeCount = 0;
     int lastFetchedValue = -1;
@@ -152,7 +167,7 @@ int DSA::LinkedList::getNth(int nTh)
         return lastFetchedValue;
     }
 
-    SingleLinkedListNode* tempHead = mHead;
+    SingleLinkedListNode<T>* tempHead = mHead;
     
     while(tempHead != nullptr)
     {
@@ -165,27 +180,29 @@ int DSA::LinkedList::getNth(int nTh)
     return ((nodeCount == nTh) ? tempHead->getData() : lastFetchedValue);
 }
 
-void DSA::LinkedList::removeFront()
+template <class T>
+void DSA::LinkedList<T>::removeFront()
 {
     if (mHead == nullptr){
         std::cout << __FUNCTION__ << " : Container is empty" << std::endl;
         return;
     }
     
-    SingleLinkedListNode* tempHead = mHead;
+    SingleLinkedListNode<T>* tempHead = mHead;
     mHead = mHead->getNext();
     delete tempHead;
 }
 
-void DSA::LinkedList::removeBack()
+template <class T>
+void DSA::LinkedList<T>::removeBack()
 {
     if (mHead == nullptr){
         std::cout << __FUNCTION__ << " : Container is empty" << std::endl;
         return;
     }
 
-    SingleLinkedListNode* tempHead = mHead;
-    SingleLinkedListNode* prevNode = mHead;
+    SingleLinkedListNode<T>* tempHead = mHead;
+    SingleLinkedListNode<T>* prevNode = mHead;
     while(tempHead->getNext() != nullptr)
     {
         prevNode = tempHead;
@@ -200,7 +217,8 @@ void DSA::LinkedList::removeBack()
     delete tempHead;
 }
 
-void DSA::LinkedList::removeNth(int nTh)
+template <class T>
+void DSA::LinkedList<T>::removeNth(int nTh)
 {
      int nodeCount = 0;
 
@@ -209,8 +227,8 @@ void DSA::LinkedList::removeNth(int nTh)
         return;
     }
 
-    SingleLinkedListNode* tempHead = mHead;
-    SingleLinkedListNode* prevNode = mHead;
+    SingleLinkedListNode<T>* tempHead = mHead;
+    SingleLinkedListNode<T>* prevNode = mHead;
     
     while(tempHead != nullptr)
     {
@@ -230,7 +248,8 @@ void DSA::LinkedList::removeNth(int nTh)
     }
 }
 
-void DSA::LinkedList::print()
+template <class T>
+void DSA::LinkedList<T>::print()
 {
     if (mHead == nullptr){
         std::cout << __FUNCTION__ << " : Container is empty" << std::endl;
@@ -238,7 +257,7 @@ void DSA::LinkedList::print()
     }
 
     std::cout << "Linked List contents are : ";
-    SingleLinkedListNode* tempHead = mHead;
+    SingleLinkedListNode<T>* tempHead = mHead;
 
     while (tempHead != nullptr)
     {
