@@ -154,7 +154,7 @@ template <class T>
 DSA::RETURN_VALUE<T> DSA::LinkedList<T>::getNth(int nTh)
 {
     int nodeCount = 0;
-    int lastFetchedValue = -1;
+    T lastFetchedValue = mDefaultError;
 
     if (mHead == nullptr){
         std::cout << __FUNCTION__ << " : Container is empty" << std::endl;
@@ -171,11 +171,9 @@ DSA::RETURN_VALUE<T> DSA::LinkedList<T>::getNth(int nTh)
         tempHead = tempHead->getNext();
     }
 
-    return DSA::RETURN_VALUE<T>(tempHead->getData(), mDefaultError, DSA::RETURN_STATE::SUCCESS);
-
-    return ((nodeCount == nTh) 
-            ? DSA::RETURN_VALUE<T>(tempHead->getData(), mDefaultError, DSA::RETURN_STATE::SUCCESS)
-            : DSA::RETURN_VALUE<T>(lastFetchedValue, mDefaultError, DSA::RETURN_STATE::SUCCESS));
+    return ((nodeCount == nTh)  \
+            ? DSA::RETURN_VALUE<T>(tempHead->getData(), mDefaultError, DSA::RETURN_STATE::SUCCESS)  \
+            : DSA::RETURN_VALUE<T>(lastFetchedValue, mDefaultError, DSA::RETURN_STATE::ERROR));
 }
 
 template <class T>
@@ -244,6 +242,24 @@ void DSA::LinkedList<T>::removeNth(int nTh)
         prevNode = tempHead;
         tempHead = tempHead->getNext();
     }
+}
+
+template <class T>
+DSA::SingleLinkedListNode<T>* DSA::LinkedList<T>::find(T elem)
+{
+    DSA::SingleLinkedListNode<T>* tempHead = mHead;
+    DSA::SingleLinkedListNode<T>* retVal = nullptr;
+
+    while(tempHead != nullptr){
+        if (tempHead->getData() == elem){
+            retVal = tempHead;
+            break;
+        }
+
+        tempHead = tempHead->getNext();
+    }
+
+    return retVal;
 }
 
 template <class T>

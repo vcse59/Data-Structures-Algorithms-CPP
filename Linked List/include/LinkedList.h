@@ -79,6 +79,8 @@ namespace DSA
             void removeBack();
             void removeNth(int nTh);
 
+            SingleLinkedListNode<T>* find(T elem);
+
             void print();
 
         private:
@@ -87,7 +89,7 @@ namespace DSA
     };
 }
 
-#include "../src/LinkedList.inl"
+#include "../src/LinkedList.impl"
 
 
 #endif
