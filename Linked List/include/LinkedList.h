@@ -43,7 +43,6 @@ namespace DSA
     template<class T>
     class SingleLinkedListNode{
         public:
-            SingleLinkedListNode();
             SingleLinkedListNode(T pData);
             SingleLinkedListNode(T pData, SingleLinkedListNode* next);
             ~SingleLinkedListNode();

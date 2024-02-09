@@ -1,10 +1,4 @@
 template <class T>
-DSA::SingleLinkedListNode<T>::SingleLinkedListNode()
-{
-    mNext = nullptr;
-}
-
-template <class T>
 DSA::SingleLinkedListNode<T>::SingleLinkedListNode(T pData)
 {
     mData = pData;
