@@ -59,6 +59,14 @@ DSA::DoublyLinkedList<T>::DoublyLinkedList(T defaultErrorValue){
 
 template<class T>
 DSA::DoublyLinkedList<T>::~DoublyLinkedList(){
+    Node<T>* tempHead = mHead;
+
+    while(tempHead != nullptr){
+        Node<T>* currNode = tempHead;
+        delete currNode;
+        tempHead = tempHead->getNext();
+    }
+
     mHead = nullptr;
 }
 
