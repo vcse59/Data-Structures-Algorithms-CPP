@@ -30,6 +30,10 @@ namespace DSA
                     return mErrorValue;
             }
 
+            RETURN_STATE getErrorState(){
+                return mState;
+            }
+
         private:
             T mT1;
             T mErrorValue;
