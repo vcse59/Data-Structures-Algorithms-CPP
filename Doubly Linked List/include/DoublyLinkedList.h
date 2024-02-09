@@ -36,14 +36,15 @@ namespace DSA{
             RETURN_STATE mState;
     };
 
+    template<class T>
     class Node{
         public:
-            Node(int pData);
-            Node(int pData, Node* prevNode, Node* nextNode);
+            Node(T pData);
+            Node(T pData, Node* prevNode, Node* nextNode);
             ~Node();
 
-            void setData(int pData);
-            int getData();
+            void setData(T pData);
+            T getData();
 
             void setPrev(Node* prevNode);
             Node* getPrev();
@@ -52,34 +53,40 @@ namespace DSA{
             Node* getNext();
 
         private:
-            int mData;
+            T mData;
             Node* mPrev{nullptr};
             Node* mNext{nullptr};
     };
 
+    template<class T>
     class DoublyLinkedList{
         public:
-            DoublyLinkedList();
+            DoublyLinkedList(T defaultErrorValue);
             ~DoublyLinkedList();
 
-            void insertStart(int pData);
-            void insertEnd(int pData);
-            void insertNth(int pData, int nth);
+            void insertStart(T pData);
+            void insertEnd(T pData);
+            void insertNth(T pData, int nth);
 
-            int getFront();
-            int getBack();
-            int getNth(int nTh);
+            RETURN_VALUE<T> getFront();
+            RETURN_VALUE<T> getBack();
+            RETURN_VALUE<T> getNth(int nTh);
 
             void removeFront();
             void removeBack();
             void removeNth(int nTh);
 
+            Node<T>* find(T elem);
+
             void print();
             void getHead();
         
         private:
-            Node* mHead{nullptr};
+            Node<T>* mHead{nullptr};
+            T mDefaultErrorVal;
     };
 }
+
+#include "../src/DoublyLinkedList.impl"
 
 #endif

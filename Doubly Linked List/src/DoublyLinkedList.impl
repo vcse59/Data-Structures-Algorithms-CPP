@@ -1,0 +1,256 @@
+#include <iostream>
+
+template<class T>
+DSA::Node<T>::Node(T pData){
+    mData = pData;
+    mPrev = nullptr;
+    mNext = nullptr;
+}
+
+template<class T>
+DSA::Node<T>::Node(T pData, Node* prevNode, Node* nextNode){
+    mData = pData;
+    mPrev = prevNode;
+    mNext = nextNode;
+}
+
+template<class T>
+DSA::Node<T>::~Node(){
+
+}
+
+template<class T>
+void DSA::Node<T>::setData(T pData){
+    mData = pData;
+    mPrev = nullptr;
+    mNext = nullptr;
+}
+
+template<class T>
+T DSA::Node<T>::getData(){
+    return mData;
+}
+
+template<class T>
+void DSA::Node<T>::setPrev(Node* prevNode){
+    mPrev = prevNode;
+}
+
+template<class T>
+DSA::Node<T>* DSA::Node<T>::getPrev(){
+    return mPrev;
+}
+
+template<class T>
+void DSA::Node<T>::setNext(Node<T>* next){
+    mNext = next;
+}
+
+template<class T>
+DSA::Node<T>* DSA::Node<T>::getNext(){
+    return mNext;
+}
+
+template<class T>
+DSA::DoublyLinkedList<T>::DoublyLinkedList(T defaultErrorValue){
+    mHead = nullptr;
+    mDefaultErrorVal = defaultErrorValue;
+}
+
+template<class T>
+DSA::DoublyLinkedList<T>::~DoublyLinkedList(){
+    mHead = nullptr;
+}
+
+template<class T>
+void DSA::DoublyLinkedList<T>::insertStart(T pData){
+    
+    Node<T>* tempHead = mHead;
+
+    Node<T>* node = new Node<T>(pData, nullptr, nullptr);
+
+    if (mHead != nullptr) {
+        mHead->setPrev(node);
+        node->setNext(mHead);
+    }
+    mHead = node;
+}
+
+template<class T>
+void DSA::DoublyLinkedList<T>::insertEnd(T pData){
+
+    Node<T>* tempHead = mHead;
+
+    Node<T>* node = new Node<T>(pData, nullptr, nullptr);
+
+    if(tempHead == nullptr)
+        mHead = node;
+    else {
+        while(tempHead->getNext() != nullptr){
+            tempHead = tempHead->getNext();
+        }
+
+        node->setPrev(tempHead);
+        tempHead->setNext(node);
+    }
+}
+
+template<class T>
+void DSA::DoublyLinkedList<T>::insertNth(T pData, int nth){
+    int nodeCount = 0;
+    Node<T>* tempHead = mHead;
+
+    Node<T>* node = new Node<T>(pData, nullptr, nullptr);
+
+    if(tempHead == nullptr)
+        mHead = node;
+    else {
+        while(tempHead->getNext() != nullptr){
+        nodeCount++;
+
+        if (nodeCount == nth)
+            break;
+
+        tempHead = tempHead->getNext();
+        }
+        
+        if (nodeCount != nth){
+            node->setPrev(tempHead);
+            tempHead->setNext(node);
+        }else{
+            tempHead->getPrev()->setNext(node);
+            node->setPrev(tempHead->getPrev());
+            node->setNext(tempHead);
+            tempHead->setPrev(node);
+        }
+    }
+}
+
+template<class T>
+DSA::RETURN_VALUE<T> DSA::DoublyLinkedList<T>::getFront(){
+    if (mHead == nullptr)
+        return DSA::RETURN_VALUE<T>(mDefaultErrorVal, mDefaultErrorVal, DSA::RETURN_STATE::ERROR);
+
+    return DSA::RETURN_VALUE<T>(mHead->getData(), mDefaultErrorVal, DSA::RETURN_STATE::SUCCESS);
+}
+
+template<class T>
+DSA::RETURN_VALUE<T> DSA::DoublyLinkedList<T>::getBack(){
+    if (mHead == nullptr)
+        return DSA::RETURN_VALUE<T>(mDefaultErrorVal, mDefaultErrorVal, DSA::RETURN_STATE::ERROR);
+
+    Node<T>* tempHead = mHead;
+
+    while(tempHead->getNext() != nullptr){
+        tempHead = tempHead->getNext();
+    }
+
+    return DSA::RETURN_VALUE<T>(tempHead->getData(), mDefaultErrorVal, DSA::RETURN_STATE::SUCCESS);
+}
+
+template<class T>
+DSA::RETURN_VALUE<T> DSA::DoublyLinkedList<T>::getNth(int nth){
+    int nodeCount = 0;
+    T retNthVal = mDefaultErrorVal;
+
+    if (mHead == nullptr)
+        return DSA::RETURN_VALUE<T>(mDefaultErrorVal, mDefaultErrorVal, DSA::RETURN_STATE::ERROR);
+
+
+    Node<T>* tempHead = mHead;
+    while(tempHead != nullptr){
+        nodeCount++;
+        if (nodeCount == nth){
+            retNthVal = tempHead->getData();
+            break;
+        }
+        tempHead = tempHead->getNext();
+    }
+
+    DSA::RETURN_STATE state = ((nodeCount == nth) ? DSA::RETURN_STATE::SUCCESS : DSA::RETURN_STATE::ERROR);
+    return  DSA::RETURN_VALUE<T>(tempHead->getData(), mDefaultErrorVal, state);
+}
+
+template<class T>
+void DSA::DoublyLinkedList<T>::removeFront(){
+    Node<T>* tempHead = mHead;
+
+    if (mHead == nullptr)
+        return;
+
+    mHead = mHead->getNext();
+    mHead->setPrev(nullptr);
+
+    delete tempHead;
+}
+
+template<class T>
+void DSA::DoublyLinkedList<T>::removeBack(){
+    Node<T>* tempHead = mHead;
+
+    if (mHead == nullptr)
+        return;
+
+    while(tempHead->getNext() != nullptr){
+        tempHead = tempHead->getNext();
+    }
+
+    tempHead->getPrev()->setNext(nullptr);
+    delete tempHead;
+}
+
+template<class T>
+void DSA::DoublyLinkedList<T>::removeNth(int nTh){
+    Node<T>* tempHead = mHead;
+    int nodeCount = 0;
+
+    if (mHead == nullptr)
+        return;
+
+    while(tempHead != nullptr){
+        nodeCount++;
+
+        if(nodeCount == nTh)
+            break;
+
+        tempHead = tempHead->getNext();
+    }
+
+    if (nodeCount == nTh){
+        tempHead->getPrev()->setNext(tempHead->getNext());
+        tempHead->getNext()->setPrev(tempHead->getPrev());
+        delete tempHead;
+    }
+}
+
+template<class T>
+DSA::Node<T>* DSA::DoublyLinkedList<T>::find(T elem){
+    DSA::Node<T>* tempHead = mHead;
+    DSA::Node<T>* searchedNode = nullptr;
+
+    if (mHead == nullptr)
+        return nullptr;
+
+    while(tempHead != nullptr){
+        if (tempHead->getData() == elem){
+            searchedNode = tempHead;
+            break;
+        }
+        tempHead = tempHead->getNext();
+    }
+
+    return searchedNode;
+}
+
+template<class T>
+void DSA::DoublyLinkedList<T>::print(){
+    Node<T>* tempHead = mHead;
+
+    std::cout << "Doubly Linked List contents are : ";
+    while(tempHead != nullptr){
+        std::cout << tempHead->getData() << " ";
+        tempHead = tempHead->getNext();
+    }
+    std::cout << std::endl;
+}
+
