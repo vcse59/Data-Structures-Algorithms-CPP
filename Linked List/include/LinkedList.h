@@ -73,8 +73,8 @@ namespace DSA
             void insertNth(T pData, int nth);
 
             DSA::RETURN_VALUE<T> getFront();
-            T getBack();
-            T getNth(int nTh);
+            DSA::RETURN_VALUE<T> getBack();
+            DSA::RETURN_VALUE<T> getNth(int nTh);
 
             void removeFront();
             void removeBack();
