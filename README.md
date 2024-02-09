@@ -1,7 +1,7 @@
 # Data Structures and Algorithms in C++
 
 1) [Graph Algorithms](Graph/Graph.md)
-2) [Tree Algorithms](Tree/Tree.md)
+2) [Binary And Binary Search Tree Algorithms](Binary And Binary Search Tree/Binary-And-Binary-Search-Tree.md)
 3) [Linked List Operations](https://github.com/vcse59/Data-Structures-Algorithms-CPP/blob/main/Linked%20List/Linked%20List.md)
 4) [Doubly Linked List Operations](https://github.com/vcse59/Data-Structures-Algorithms-CPP/blob/main/Doubly%20Linked%20List/Double%20Linked%20List.md)
 
